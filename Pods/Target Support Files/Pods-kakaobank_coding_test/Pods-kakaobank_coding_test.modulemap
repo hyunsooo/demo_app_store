@@ -1,0 +1,6 @@
+module Pods_kakaobank_coding_test {
+  umbrella header "Pods-kakaobank_coding_test-umbrella.h"
+
+  export *
+  module * { export * }
+}

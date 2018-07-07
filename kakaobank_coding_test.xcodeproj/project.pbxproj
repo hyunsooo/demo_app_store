@@ -8,22 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		17ACACE720EFA97900574DD2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACACE620EFA97900574DD2 /* AppDelegate.swift */; };
-		17ACACE920EFA97900574DD2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACACE820EFA97900574DD2 /* ViewController.swift */; };
 		17ACACEC20EFA97900574DD2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17ACACEA20EFA97900574DD2 /* Main.storyboard */; };
-		17ACACEF20EFA97900574DD2 /* kakaobank_coding_test.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 17ACACED20EFA97900574DD2 /* kakaobank_coding_test.xcdatamodeld */; };
 		17ACACF120EFA97B00574DD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17ACACF020EFA97B00574DD2 /* Assets.xcassets */; };
 		17ACACF420EFA97B00574DD2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17ACACF220EFA97B00574DD2 /* LaunchScreen.storyboard */; };
+		17ACACFD20EFB19200574DD2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACACFC20EFB19200574DD2 /* SearchViewController.swift */; };
+		17ACAD0120EFB37100574DD2 /* TapBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACAD0020EFB37100574DD2 /* TapBarViewController.swift */; };
+		17ACAD0420EFB91000574DD2 /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACAD0320EFB91000574DD2 /* RecentSearchCell.swift */; };
+		17ACAD0720EFBC4000574DD2 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ACAD0620EFBC4000574DD2 /* Model.swift */; };
+		773B47E98F885B7AB505246B /* libPods-kakaobank_coding_test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31C6F25C8EF12E0527D8989 /* libPods-kakaobank_coding_test.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		17ACACE320EFA97900574DD2 /* kakaobank_coding_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kakaobank_coding_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17ACACE620EFA97900574DD2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		17ACACE820EFA97900574DD2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		17ACACEB20EFA97900574DD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		17ACACEE20EFA97900574DD2 /* kakaobank_coding_test.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = kakaobank_coding_test.xcdatamodel; sourceTree = "<group>"; };
 		17ACACF020EFA97B00574DD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		17ACACF320EFA97B00574DD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17ACACF520EFA97B00574DD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17ACACFC20EFB19200574DD2 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		17ACAD0020EFB37100574DD2 /* TapBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapBarViewController.swift; sourceTree = "<group>"; };
+		17ACAD0320EFB91000574DD2 /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
+		17ACAD0620EFBC4000574DD2 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		43B4C0207F5CF56CA49087D0 /* Pods-kakaobank_coding_test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kakaobank_coding_test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-kakaobank_coding_test/Pods-kakaobank_coding_test.debug.xcconfig"; sourceTree = "<group>"; };
+		903DD5B3E218F911AC3A57DF /* Pods-kakaobank_coding_test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kakaobank_coding_test.release.xcconfig"; path = "Pods/Target Support Files/Pods-kakaobank_coding_test/Pods-kakaobank_coding_test.release.xcconfig"; sourceTree = "<group>"; };
+		F31C6F25C8EF12E0527D8989 /* libPods-kakaobank_coding_test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-kakaobank_coding_test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				773B47E98F885B7AB505246B /* libPods-kakaobank_coding_test.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +51,8 @@
 			children = (
 				17ACACE520EFA97900574DD2 /* kakaobank_coding_test */,
 				17ACACE420EFA97900574DD2 /* Products */,
+				BADA303B6AD8046EFF125E55 /* Pods */,
+				AD20900BEB500829DAB05D38 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +67,58 @@
 		17ACACE520EFA97900574DD2 /* kakaobank_coding_test */ = {
 			isa = PBXGroup;
 			children = (
+				17ACAD0520EFBC3700574DD2 /* Model */,
+				17ACACFB20EFB14000574DD2 /* ViewControllers */,
 				17ACACE620EFA97900574DD2 /* AppDelegate.swift */,
-				17ACACE820EFA97900574DD2 /* ViewController.swift */,
 				17ACACEA20EFA97900574DD2 /* Main.storyboard */,
 				17ACACF020EFA97B00574DD2 /* Assets.xcassets */,
 				17ACACF220EFA97B00574DD2 /* LaunchScreen.storyboard */,
 				17ACACF520EFA97B00574DD2 /* Info.plist */,
-				17ACACED20EFA97900574DD2 /* kakaobank_coding_test.xcdatamodeld */,
 			);
 			path = kakaobank_coding_test;
+			sourceTree = "<group>";
+		};
+		17ACACFB20EFB14000574DD2 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				17ACAD0220EFB4A300574DD2 /* Cells */,
+				17ACACFC20EFB19200574DD2 /* SearchViewController.swift */,
+				17ACAD0020EFB37100574DD2 /* TapBarViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		17ACAD0220EFB4A300574DD2 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				17ACAD0320EFB91000574DD2 /* RecentSearchCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		17ACAD0520EFBC3700574DD2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				17ACAD0620EFBC4000574DD2 /* Model.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AD20900BEB500829DAB05D38 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F31C6F25C8EF12E0527D8989 /* libPods-kakaobank_coding_test.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BADA303B6AD8046EFF125E55 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				43B4C0207F5CF56CA49087D0 /* Pods-kakaobank_coding_test.debug.xcconfig */,
+				903DD5B3E218F911AC3A57DF /* Pods-kakaobank_coding_test.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +128,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 17ACACF820EFA97B00574DD2 /* Build configuration list for PBXNativeTarget "kakaobank_coding_test" */;
 			buildPhases = (
+				58EB53ADD4ED8114C8E13020 /* [CP] Check Pods Manifest.lock */,
 				17ACACDF20EFA97900574DD2 /* Sources */,
 				17ACACE020EFA97900574DD2 /* Frameworks */,
 				17ACACE120EFA97900574DD2 /* Resources */,
@@ -133,14 +188,37 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		58EB53ADD4ED8114C8E13020 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-kakaobank_coding_test-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		17ACACDF20EFA97900574DD2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17ACACEF20EFA97900574DD2 /* kakaobank_coding_test.xcdatamodeld in Sources */,
-				17ACACE920EFA97900574DD2 /* ViewController.swift in Sources */,
+				17ACAD0720EFBC4000574DD2 /* Model.swift in Sources */,
+				17ACAD0420EFB91000574DD2 /* RecentSearchCell.swift in Sources */,
+				17ACACFD20EFB19200574DD2 /* SearchViewController.swift in Sources */,
 				17ACACE720EFA97900574DD2 /* AppDelegate.swift in Sources */,
+				17ACAD0120EFB37100574DD2 /* TapBarViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,17 +360,21 @@
 		};
 		17ACACF920EFA97B00574DD2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43B4C0207F5CF56CA49087D0 /* Pods-kakaobank_coding_test.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ACE9KE4UN9;
 				INFOPLIST_FILE = kakaobank_coding_test/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "hyunsoo.kakaobank-coding-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "014ee10f-f831-41ef-8daa-898a2c999b3b";
+				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -300,17 +382,21 @@
 		};
 		17ACACFA20EFA97B00574DD2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 903DD5B3E218F911AC3A57DF /* Pods-kakaobank_coding_test.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ACE9KE4UN9;
 				INFOPLIST_FILE = kakaobank_coding_test/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "hyunsoo.kakaobank-coding-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "014ee10f-f831-41ef-8daa-898a2c999b3b";
+				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -338,19 +424,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		17ACACED20EFA97900574DD2 /* kakaobank_coding_test.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				17ACACEE20EFA97900574DD2 /* kakaobank_coding_test.xcdatamodel */,
-			);
-			currentVersion = 17ACACEE20EFA97900574DD2 /* kakaobank_coding_test.xcdatamodel */;
-			path = kakaobank_coding_test.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 17ACACDB20EFA97900574DD2 /* Project object */;
 }

@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TapBarViewController.swift
 //  kakaobank_coding_test
 //
 //  Created by hyunsu han on 2018. 7. 6..
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class TapBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        selectedIndex = 4   // set default initial controller : search view controller
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +20,4 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
 }
-
