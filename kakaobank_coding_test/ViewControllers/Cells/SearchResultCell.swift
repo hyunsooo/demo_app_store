@@ -34,11 +34,11 @@ extension SearchResultCell: CellProtocol {
         if let appIcon = URL(string: data.artworkUrl100) { appIconImageView.setImage(url: appIcon) }
         data.screenshotUrls.enumerated().forEach {
             switch $0.offset {
-            case 1:
+            case 0:
                 if let screenshot = URL(string: $0.element) { appThumbnail1.setImage(url: screenshot) }
-            case 2:
+            case 1:
                 if let screenshot = URL(string: $0.element) { appThumbnail2.setImage(url: screenshot) }
-            case 3:
+            case 2:
                 if let screenshot = URL(string: $0.element) { appThumbnail3.setImage(url: screenshot) }
             default:
                 break

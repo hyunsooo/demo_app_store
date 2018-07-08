@@ -28,7 +28,7 @@ class SearchViewController: UIViewController {
     @IBOutlet var headerView: UIView!
     @IBOutlet var searchView: UIView!
     
-    let cancelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCancel))
+    var cancelGestureRecognizer: UITapGestureRecognizer?
     
     // 최근 검색어
     var dataSource = [String]() {
@@ -65,7 +65,7 @@ class SearchViewController: UIViewController {
         searchImageContainerView.addSubview(searchImageView)
         searchTextField.leftView = searchImageContainerView
         
-        
+        cancelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCancel))
         searchTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSearch)))
         searchTextField.addTarget(self, action: #selector(textChange), for: .editingChanged)
     }
@@ -146,6 +146,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         } else if tableView == self.tableView2 {
             let data = dataSource2[indexPath.row]
             self.searchTextField.text = data
+            setAnimation(searchOn: true)
             search(term: data)
         } else if tableView == self.tableView3 {
             let data = dataSource3[indexPath.row]
@@ -170,10 +171,10 @@ extension SearchViewController: UITextFieldDelegate {
     @objc func textChange() {
         guard let value = searchTextField.text else { return }
         do {
-            searchView.isHidden = false
             searchView.alpha = 1
-            tableView2.isHidden = false
-            tableView3.isHidden = true
+            tableView2.alpha = 1
+            tableView3.alpha = 0
+            searchView.removeGestureRecognizer(cancelGestureRecognizer!)
             dataSource2 = []
             let regEx = try NSRegularExpression(pattern: hanguelRegx, options: [])
             let num = regEx.numberOfMatches(in: value, options: [], range: NSRange(location: 0, length: value.count))
@@ -194,7 +195,6 @@ extension SearchViewController: UITextFieldDelegate {
                     }
                     history = dataSource2
                 }
-                print(dataSource2)
                 tableView2.reloadData()
             }
         } catch {
@@ -209,12 +209,10 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func search(term: String) {
-        searchView.isHidden = false
         searchView.alpha = 1
-        tableView2.isHidden = true
-        tableView3.isHidden = false
+        tableView2.alpha = 0
+        tableView3.alpha = 1
         dataSource3 = []
-        searchView.removeGestureRecognizer(cancelGestureRecognizer)
         let urlString: String = "\(searchUrl)&term=\(term)"
         if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!) {
             let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 0)
@@ -242,7 +240,7 @@ extension SearchViewController: UITextFieldDelegate {
                 
                 self.dataSource3 = Model.Results(JSON(data)).results
                 
-                }.resume()
+            }.resume()
         }
     }
 }
@@ -250,20 +248,33 @@ extension SearchViewController: UITextFieldDelegate {
 extension SearchViewController {
     @objc func handleSearch() { //textfield 탭
         self.searchTextField.becomeFirstResponder()
-        setAnimation(searchOn: true)
-        searchView.addGestureRecognizer(cancelGestureRecognizer)
+        if !isSearching {
+            print("tableView2 alpha \(tableView2.alpha)")
+            print("tableView3 alpha \(tableView3.alpha)")
+            cancelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCancel))
+            searchView.addGestureRecognizer(cancelGestureRecognizer!)
+            setAnimation(searchOn: true)
+        }
     }
     
     @IBAction func handleCancel() {
         self.view.endEditing(true)
         setAnimation(searchOn: false)
-        searchView.removeGestureRecognizer(cancelGestureRecognizer)
+        dataSource3 = []
+        dataSource2 = []
+        tableView2.reloadData()
+        tableView3.reloadData()
+        tableView2.alpha = 0
+        tableView3.alpha = 0
     }
     
     func setAnimation(searchOn: Bool) {
         self.navigationController?.setNavigationBarHidden(searchOn, animated: false)
-        searchView.isHidden = !searchOn
+        isSearching  = searchOn
         if !searchOn {
+            // 취소
+            self.searchTextField.text = ""
+            self.searchView.removeGestureRecognizer(self.cancelGestureRecognizer!)
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
                 self.searchTitleTopAnchor.constant = 20
                 self.searchTextFieldRightAnchor.constant = 0
@@ -272,11 +283,10 @@ extension SearchViewController {
                 self.searchCancelButton.alpha = 0
                 self.searchView.alpha = 0
                 self.view.layoutIfNeeded()
-            }, completion: { _ in
-                self.searchTextField.text = ""
-                self.isSearching = false
             })
         } else {
+            // 검색
+            
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
                 self.searchTitleTopAnchor.constant = -100
                 self.searchTextFieldRightAnchor.constant = 40
@@ -285,8 +295,6 @@ extension SearchViewController {
                 self.searchCancelButton.alpha = 1
                 self.searchView.alpha = 0.4
                 self.view.layoutIfNeeded()
-            }, completion: { _ in
-                self.isSearching = true
             })
         }
     }
