@@ -126,10 +126,10 @@
                                                     <constraint firstItem="3Yy-I0-cmS" firstAttribute="trailing" secondItem="zDf-yX-AmF" secondAttribute="trailing" constant="-40" id="xdp-DU-iiv"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TYq-Lf-c57">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TYq-Lf-c57">
                                                 <rect key="frame" x="0.0" y="120" width="374" height="520"/>
                                                 <subviews>
-                                                    <tableView clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6iT-87-Zty">
+                                                    <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6iT-87-Zty">
                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="520"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <prototypes>
@@ -175,11 +175,11 @@
                                                             <outlet property="delegate" destination="qbO-R4-SL2" id="BnE-lO-T5W"/>
                                                         </connections>
                                                     </tableView>
-                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="C2x-c1-Mf6">
+                                                    <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="C2x-c1-Mf6">
                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="520"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <prototypes>
-                                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kSearchResultCell" rowHeight="250" id="XDi-gv-Yie" customClass="SearchResultCell" customModule="kakaobank_coding_test" customModuleProvider="target">
+                                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kSearchResultCell" rowHeight="250" id="XDi-gv-Yie" customClass="SearchResultCell" customModule="kakaobank_coding_test" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="28" width="374" height="250"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XDi-gv-Yie" id="9zG-yk-TUN">
@@ -211,7 +211,7 @@
                                                                                 <constraint firstAttribute="height" constant="40" id="tKf-Kq-Eqq"/>
                                                                                 <constraint firstAttribute="width" constant="80" id="vrb-uB-SoS"/>
                                                                             </constraints>
-                                                                            <state key="normal" title="Button"/>
+                                                                            <state key="normal" title="받기"/>
                                                                         </button>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sVd-ZB-7AK">
                                                                             <rect key="frame" x="57" y="105" width="80" height="130"/>
@@ -275,6 +275,10 @@
                                                                 </connections>
                                                             </tableViewCell>
                                                         </prototypes>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="qbO-R4-SL2" id="Iw6-Zn-3Ox"/>
+                                                            <outlet property="delegate" destination="qbO-R4-SL2" id="bXs-FD-OKU"/>
+                                                        </connections>
                                                     </tableView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -14,6 +14,8 @@ class SearchViewController: UIViewController {
     let hanguelRegx: String = "^[ㄱ-ㅎㅏ-ㅣ가-힣//s]*$"
     let searchUrl: String = "https://itunes.apple.com/search?country=kr&entity=software"
     
+    var isSearching: Bool = false
+    
     @IBOutlet var searchTitle: UILabel!
     @IBOutlet var searchTextField: UITextField!
     @IBOutlet var searchCancelButton: UIButton!
@@ -25,6 +27,8 @@ class SearchViewController: UIViewController {
     @IBOutlet var tableView3: UITableView!  // 검색 결과
     @IBOutlet var headerView: UIView!
     @IBOutlet var searchView: UIView!
+    
+    let cancelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCancel))
     
     // 최근 검색어
     var dataSource = [String]() {
@@ -64,7 +68,6 @@ class SearchViewController: UIViewController {
         
         searchTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSearch)))
         searchTextField.addTarget(self, action: #selector(textChange), for: .editingChanged)
-        searchView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCancel)))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,27 +78,28 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        if scrollView.contentOffset.y > 55 {
-            if !showTitle {
-                UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black.withAlphaComponent(1)]
-                    self.view.layoutIfNeeded()
-                }, completion: { _ in
-                    self.showTitle = true
-                })
-            }
-            
-            scrollView.contentOffset.y = 56
-            
-        } else {
-            if showTitle {
-                UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black.withAlphaComponent(0)]
-                    self.view.layoutIfNeeded()
-                }, completion: { _ in
-                    self.showTitle = false
-                })
+        if !isSearching {
+            if scrollView.contentOffset.y > 55 {
+                if !showTitle {
+                    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black.withAlphaComponent(1)]
+                        self.view.layoutIfNeeded()
+                    }, completion: { _ in
+                        self.showTitle = true
+                    })
+                }
+                
+                scrollView.contentOffset.y = 56
+                
+            } else {
+                if showTitle {
+                    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black.withAlphaComponent(0)]
+                        self.view.layoutIfNeeded()
+                    }, completion: { _ in
+                        self.showTitle = false
+                    })
+                }
             }
         }
     }
@@ -107,6 +111,8 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             return dataSource.count > 10 ? 10 : dataSource.count
         } else if tableView == self.tableView2 {
             return dataSource2.count
+        }  else if tableView == self.tableView3 {
+            return dataSource3.count
         } else {
             return 0
         }
@@ -121,6 +127,10 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.identifier, for: indexPath) as! HistoryCell
             cell.update(dataSource2[indexPath.row])
             return cell
+        } else if tableView == self.tableView3 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.identifier, for: indexPath) as! SearchResultCell
+            cell.update(dataSource3[indexPath.row])
+            return cell
         } else {
             return UITableViewCell()
         }
@@ -130,11 +140,27 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         // search selected data's term
         if tableView == self.tableView {
             let data = dataSource[indexPath.row]
-            print(data)
+            self.searchTextField.text = data
+            setAnimation(searchOn: true)
+            search(term: data)
         } else if tableView == self.tableView2 {
             let data = dataSource2[indexPath.row]
+            self.searchTextField.text = data
+            search(term: data)
+        } else if tableView == self.tableView3 {
+            let data = dataSource3[indexPath.row]
             print(data)
-        }
+        } else { }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == self.tableView {
+            return 44
+        } else if tableView == self.tableView2 {
+            return 60
+        } else if tableView == self.tableView3 {
+            return 250
+        } else { return 0 }
     }
 }
 
@@ -144,17 +170,18 @@ extension SearchViewController: UITextFieldDelegate {
     @objc func textChange() {
         guard let value = searchTextField.text else { return }
         do {
+            searchView.isHidden = false
+            searchView.alpha = 1
+            tableView2.isHidden = false
+            tableView3.isHidden = true
+            dataSource2 = []
             let regEx = try NSRegularExpression(pattern: hanguelRegx, options: [])
             let num = regEx.numberOfMatches(in: value, options: [], range: NSRange(location: 0, length: value.count))
             if num == 0 {
                 alert("한글만 입력 가능합니다.")
                 searchTextField.text = ""
-                dataSource2 = []
                 searchTextField.becomeFirstResponder()
             } else {
-                searchView.alpha = 1
-                tableView2.alpha = 1
-                dataSource2 = []
                 var history = GlobalState.instance.recentSearch
                 value.map { String($0) }.forEach { (character) in
                     if let unicode = UnicodeScalar(character)?.value {
@@ -177,6 +204,17 @@ extension SearchViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let term = textField.text else { return false }
+        search(term: term)
+        return true
+    }
+    
+    func search(term: String) {
+        searchView.isHidden = false
+        searchView.alpha = 1
+        tableView2.isHidden = true
+        tableView3.isHidden = false
+        dataSource3 = []
+        searchView.removeGestureRecognizer(cancelGestureRecognizer)
         let urlString: String = "\(searchUrl)&term=\(term)"
         if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!) {
             let urlRequest = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 0)
@@ -202,21 +240,43 @@ extension SearchViewController: UITextFieldDelegate {
                     }
                 }
                 
-                let _ = Model.Results(JSON(data))
+                self.dataSource3 = Model.Results(JSON(data)).results
                 
-            }.resume()
-            
+                }.resume()
         }
-        return true
-        
     }
 }
 
 extension SearchViewController {
-    @objc func handleSearch() {
+    @objc func handleSearch() { //textfield 탭
         self.searchTextField.becomeFirstResponder()
-        DispatchQueue.main.async {
-            self.navigationController?.setNavigationBarHidden(true, animated: false)
+        setAnimation(searchOn: true)
+        searchView.addGestureRecognizer(cancelGestureRecognizer)
+    }
+    
+    @IBAction func handleCancel() {
+        self.view.endEditing(true)
+        setAnimation(searchOn: false)
+        searchView.removeGestureRecognizer(cancelGestureRecognizer)
+    }
+    
+    func setAnimation(searchOn: Bool) {
+        self.navigationController?.setNavigationBarHidden(searchOn, animated: false)
+        searchView.isHidden = !searchOn
+        if !searchOn {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
+                self.searchTitleTopAnchor.constant = 20
+                self.searchTextFieldRightAnchor.constant = 0
+                self.headerViewTopAnchor.constant = 0
+                self.searchTitle.alpha = 1
+                self.searchCancelButton.alpha = 0
+                self.searchView.alpha = 0
+                self.view.layoutIfNeeded()
+            }, completion: { _ in
+                self.searchTextField.text = ""
+                self.isSearching = false
+            })
+        } else {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
                 self.searchTitleTopAnchor.constant = -100
                 self.searchTextFieldRightAnchor.constant = 40
@@ -225,30 +285,12 @@ extension SearchViewController {
                 self.searchCancelButton.alpha = 1
                 self.searchView.alpha = 0.4
                 self.view.layoutIfNeeded()
-                
-            }, completion: nil)
-        }
-    }
-    
-    @IBAction func handleCancel() {
-        self.view.endEditing(true)
-        DispatchQueue.main.async {
-            self.navigationController?.setNavigationBarHidden(false, animated: false)
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-                self.searchTitleTopAnchor.constant = 20
-                self.searchTextFieldRightAnchor.constant = 0
-                self.headerViewTopAnchor.constant = 0
-                self.searchTitle.alpha = 1
-                self.searchCancelButton.alpha = 0
-                self.searchView.alpha = 0
-                self.tableView2.alpha = 0
-                self.tableView3.alpha = 0
-                self.view.layoutIfNeeded()
             }, completion: { _ in
-                self.searchTextField.text = ""
+                self.isSearching = true
             })
         }
     }
+    
 }
 
 extension UIViewController {
