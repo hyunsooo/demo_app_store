@@ -25,8 +25,8 @@ class RecentSearchCell: UITableViewCell {
 }
 
 extension RecentSearchCell: CellProtocol {
-    typealias Item = Model.RecentSearch
-    func update(_ data: Model.RecentSearch) {
-        searchTextLabel.text = data.term
+    typealias Item = String
+    func update(_ data: Item) {
+        searchTextLabel.text = data
     }
 }
