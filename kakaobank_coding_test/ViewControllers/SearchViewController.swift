@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, UINavigationControllerDelegate {
 
     let hanguelRegx: String = "^[ㄱ-ㅎㅏ-ㅣ가-힣//s]*$"
     let searchUrl: String = "https://itunes.apple.com/search?country=kr&entity=software"
@@ -56,6 +56,8 @@ class SearchViewController: UIViewController {
         navigationController?.navigationBar.clipsToBounds = true
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black.withAlphaComponent(0)]
         
+        navigationController?.delegate = self
+        
         searchTextField.leftViewMode = .always
         let searchImageContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 40))
         let searchImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -73,6 +75,12 @@ class SearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         dataSource = GlobalState.instance.recentSearch
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail_segue" {
+            
+        }
     }
 }
 
@@ -150,7 +158,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             search(term: data)
         } else if tableView == self.tableView3 {
             let data = dataSource3[indexPath.row]
-            print(data)
+            guard let appDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AppDetailViewController") as? AppDetailViewController else { return }
+            appDetailViewController.model = data
+            self.navigationController?.pushViewController(appDetailViewController, animated: true)
         } else { }
     }
     
@@ -160,7 +170,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         } else if tableView == self.tableView2 {
             return 60
         } else if tableView == self.tableView3 {
-            return 250
+            return 310
         } else { return 0 }
     }
 }

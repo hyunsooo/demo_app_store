@@ -53,7 +53,7 @@ extension Model {
         let isVppDeviceBasedLicensingEnabled: Bool
         let sellerUrl: String
         let trackCensoredName: String
-        let averageUserRating: Int
+        let averageUserRating: Float
         let appletvScreenshotUrls: [String]
         let genres: [String]
         let releaseDate: String
@@ -99,7 +99,7 @@ extension Model {
             isVppDeviceBasedLicensingEnabled = json["isVppDeviceBasedLicensingEnabled"].boolValue
             sellerUrl = json["sellerUrl"].stringValue
             trackCensoredName = json["trackCensoredName"].stringValue
-            averageUserRating = json["averageUserRating"].intValue
+            averageUserRating = json["averageUserRating"].floatValue
             appletvScreenshotUrls = json["appletvScreenshotUrls"].arrayValue.map { $0.stringValue }
             genres = json["genres"].arrayValue.map { $0.stringValue }
             releaseDate = json["releaseDate"].stringValue

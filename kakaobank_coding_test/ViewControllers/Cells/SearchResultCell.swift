@@ -18,6 +18,8 @@ class SearchResultCell: UITableViewCell {
     @IBOutlet var appThumbnail1: UIImageView!
     @IBOutlet var appThumbnail2: UIImageView!
     @IBOutlet var appThumbnail3: UIImageView!
+    @IBOutlet var ratingControl: RatingControl!
+    
     static let identifier: String = "kSearchResultCell"
     
     override func prepareForReuse() {
@@ -47,6 +49,7 @@ extension SearchResultCell: CellProtocol {
         appTitleLabel.text = data.trackCensoredName
         appSubTitleLabel.text = data.genres.first
         ratingCountLabel.text = "\(data.userRatingCount)"
+        ratingControl.setRating(rating: data.averageUserRating) 
     }
     
 }
@@ -62,8 +65,33 @@ extension UIImageView {
                 if let error = error { NSLog(error.localizedDescription) }
                 return
             }
-            DispatchQueue.main.async { self.image = UIImage(data: data) }
+            DispatchQueue.main.async { self.image = UIImage(data: data)?.resizeImage(targetSize: CGSize(width: 180, height: 380)).withRenderingMode(.alwaysOriginal) }
         }.resume()
+    }
+}
+
+extension UIImage {
+    func resizeImage(targetSize: CGSize) -> UIImage {
+        let size = self.size
+        
+        let widthRatio  = targetSize.width  / self.size.width
+        let heightRatio = targetSize.height / self.size.height
+        
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        self.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
 }
 
