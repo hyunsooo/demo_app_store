@@ -16,16 +16,16 @@ class SearchViewController: UIViewController, UINavigationControllerDelegate {
     
     var isSearching: Bool = false
     
-    @IBOutlet var searchTitle: UILabel!
-    @IBOutlet var searchTextField: UITextField!
-    @IBOutlet var searchCancelButton: UIButton!
-    @IBOutlet var searchTitleTopAnchor: NSLayoutConstraint!
-    @IBOutlet var headerViewTopAnchor: NSLayoutConstraint!
+//    @IBOutlet var searchTitle: UILabel!
+//    @IBOutlet var searchTextField: UITextField!
+//    @IBOutlet var searchCancelButton: UIButton!
+//    @IBOutlet var searchTitleTopAnchor: NSLayoutConstraint!
+//    @IBOutlet var headerViewTopAnchor: NSLayoutConstraint!
     @IBOutlet var searchTextFieldRightAnchor: NSLayoutConstraint!
     @IBOutlet var tableView: UITableView!   // 최근 검색어
     @IBOutlet var tableView2: UITableView!  // 히스토리
     @IBOutlet var tableView3: UITableView!  // 검색 결과
-    @IBOutlet var headerView: UIView!
+//    @IBOutlet var headerView: UIView!
     @IBOutlet var searchView: UIView!
     
     var cancelGestureRecognizer: UITapGestureRecognizer?
@@ -50,26 +50,30 @@ class SearchViewController: UIViewController, UINavigationControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.clipsToBounds = true
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black.withAlphaComponent(0)]
         
         navigationController?.delegate = self
-        
-        searchTextField.leftViewMode = .always
-        let searchImageContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 40))
-        let searchImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        searchImageView.image = #imageLiteral(resourceName: "search")
-        searchImageView.center = CGPoint(x: searchImageContainerView.center.x + 5,
-                                         y:  searchImageContainerView.center.y)
-        searchImageContainerView.addSubview(searchImageView)
-        searchTextField.leftView = searchImageContainerView
-        
-        cancelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCancel))
-        searchTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSearch)))
-        searchTextField.addTarget(self, action: #selector(textChange), for: .editingChanged)
+        let searchController = UISearchController(searchResultsController: nil)
+        navigationItem.searchController = searchController
+        searchController.searchBar.placeholder = "App Store"
+        searchController.searchBar.searchBarStyle = .minimal
+        navigationItem.hidesSearchBarWhenScrolling = false
+       
+//        searchTextField.leftViewMode = .always
+//        let searchImageContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 40))
+//        let searchImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+//        searchImageView.image = #imageLiteral(resourceName: "search")
+//        searchImageView.center = CGPoint(x: searchImageContainerView.center.x + 5,
+//                                         y:  searchImageContainerView.center.y)
+//        searchImageContainerView.addSubview(searchImageView)
+//        searchTextField.leftView = searchImageContainerView
+//
+//        cancelGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCancel))
+//        searchTextField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSearch)))
+//        searchTextField.addTarget(self, action: #selector(textChange), for: .editingChanged)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,39 +81,34 @@ class SearchViewController: UIViewController, UINavigationControllerDelegate {
         dataSource = GlobalState.instance.recentSearch
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detail_segue" {
-            
-        }
-    }
 }
 
 extension SearchViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !isSearching {
-            if scrollView.contentOffset.y > 55 {
-                if !showTitle {
-                    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black.withAlphaComponent(1)]
-                        self.view.layoutIfNeeded()
-                    }, completion: { _ in
-                        self.showTitle = true
-                    })
-                }
-                
-                scrollView.contentOffset.y = 56
-                
-            } else {
-                if showTitle {
-                    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black.withAlphaComponent(0)]
-                        self.view.layoutIfNeeded()
-                    }, completion: { _ in
-                        self.showTitle = false
-                    })
-                }
-            }
-        }
+//        if !isSearching {
+//            if scrollView.contentOffset.y > 55 {
+//                if !showTitle {
+//                    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+//                        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black.withAlphaComponent(1)]
+//                        self.view.layoutIfNeeded()
+//                    }, completion: { _ in
+//                        self.showTitle = true
+//                    })
+//                }
+//
+////                scrollView.contentOffset.y = 56
+//
+//            } else {
+//                if showTitle {
+//                    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+//                        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.black.withAlphaComponent(0)]
+//                        self.view.layoutIfNeeded()
+//                    }, completion: { _ in
+//                        self.showTitle = false
+//                    })
+//                }
+//            }
+//        }
     }
 }
 
@@ -148,18 +147,19 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         // search selected data's term
         if tableView == self.tableView {
             let data = dataSource[indexPath.row]
-            self.searchTextField.text = data
+//            self.searchTextField.text = data
             setAnimation(searchOn: true)
             search(term: data)
         } else if tableView == self.tableView2 {
             let data = dataSource2[indexPath.row]
-            self.searchTextField.text = data
+//            self.searchTextField.text = data
             setAnimation(searchOn: true)
             search(term: data)
         } else if tableView == self.tableView3 {
             let data = dataSource3[indexPath.row]
-            guard let appDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AppDetailViewController") as? AppDetailViewController else { return }
+            guard let appDetailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "appDetail") as? AppDetailViewController else { return }
             appDetailViewController.model = data
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
             self.navigationController?.pushViewController(appDetailViewController, animated: true)
         } else { }
     }
@@ -179,7 +179,8 @@ extension SearchViewController: UITextFieldDelegate {
     // 한글만 입력
     // tableView2 : 히스토리
     @objc func textChange() {
-        guard let value = searchTextField.text else { return }
+//        guard let value = searchTextField.text else { return }
+        let value = ""
         do {
             searchView.alpha = 1
             tableView2.alpha = 1
@@ -190,8 +191,8 @@ extension SearchViewController: UITextFieldDelegate {
             let num = regEx.numberOfMatches(in: value, options: [], range: NSRange(location: 0, length: value.count))
             if num == 0 {
                 alert("한글만 입력 가능합니다.")
-                searchTextField.text = ""
-                searchTextField.becomeFirstResponder()
+//                searchTextField.text = ""
+//                searchTextField.becomeFirstResponder()
             } else {
                 var history = GlobalState.instance.recentSearch
                 value.map { String($0) }.forEach { (character) in
@@ -247,7 +248,7 @@ extension SearchViewController: UITextFieldDelegate {
                         }
                     }
                 }
-                
+//                print(JSON(data))
                 self.dataSource3 = Model.Results(JSON(data)).results
                 
             }.resume()
@@ -257,7 +258,7 @@ extension SearchViewController: UITextFieldDelegate {
 
 extension SearchViewController {
     @objc func handleSearch() { //textfield 탭
-        self.searchTextField.becomeFirstResponder()
+//        self.searchTextField.becomeFirstResponder()
         if !isSearching {
             print("tableView2 alpha \(tableView2.alpha)")
             print("tableView3 alpha \(tableView3.alpha)")
@@ -283,14 +284,14 @@ extension SearchViewController {
         isSearching  = searchOn
         if !searchOn {
             // 취소
-            self.searchTextField.text = ""
+//            self.searchTextField.text = ""
             self.searchView.removeGestureRecognizer(self.cancelGestureRecognizer!)
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-                self.searchTitleTopAnchor.constant = 20
+//                self.searchTitleTopAnchor.constant = 20
                 self.searchTextFieldRightAnchor.constant = 0
-                self.headerViewTopAnchor.constant = 0
-                self.searchTitle.alpha = 1
-                self.searchCancelButton.alpha = 0
+//                self.headerViewTopAnchor.constant = 0
+//                self.searchTitle.alpha = 1
+//                self.searchCancelButton.alpha = 0
                 self.searchView.alpha = 0
                 self.view.layoutIfNeeded()
             })
@@ -298,11 +299,11 @@ extension SearchViewController {
             // 검색
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveLinear, animations: {
-                self.searchTitleTopAnchor.constant = -100
+//                self.searchTitleTopAnchor.constant = -100
                 self.searchTextFieldRightAnchor.constant = 40
-                self.headerViewTopAnchor.constant = -56
-                self.searchTitle.alpha = 0
-                self.searchCancelButton.alpha = 1
+//                self.headerViewTopAnchor.constant = -56
+//                self.searchTitle.alpha = 0
+//                self.searchCancelButton.alpha = 1
                 self.searchView.alpha = 0.4
                 self.view.layoutIfNeeded()
             })

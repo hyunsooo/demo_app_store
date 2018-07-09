@@ -51,6 +51,7 @@ class RatingControl: UIStackView {
                 let maskWidth = CGFloat(rating-Float(i)) * starSize
                 let maskHeight = starSize
                 maskLayer.frame = CGRect(x: 0, y: 0, width: maskWidth, height: maskHeight)
+                maskLayer.backgroundColor = UIColor.black.cgColor
                 star.layer.mask = maskLayer
                 star.isHidden = false
             } else {
