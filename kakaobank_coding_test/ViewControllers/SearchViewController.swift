@@ -9,11 +9,16 @@
 import UIKit
 import SwiftyJSON
 
-class SearchViewController: UIViewController {
+protocol SearchViewControllerDelegate: class {
+    func setSearchTextInSearchBar(term: String)
+}
+
+class SearchViewController: UIViewController, SearchViewControllerDelegate {
 
     let hanguelRegx: String = "^[ㄱ-ㅎㅏ-ㅣ가-힣//s]*$"
     let searchUrl: String = "https://itunes.apple.com/search?country=kr&entity=software"
-    let searchController = UISearchController(searchResultsController: nil)
+    var searchController: UISearchController?
+    
     var isSearching: Bool = false
     
     @IBOutlet var tableView: UITableView!   // 최근 검색어
@@ -42,14 +47,17 @@ class SearchViewController: UIViewController {
         navigationController?.navigationBar.clipsToBounds = true
         navigationItem.largeTitleDisplayMode = .automatic
         
-        searchController.searchBar.delegate = self
+        let searchResultsController = SearchResultsViewController()
+        searchResultsController.delgate = self
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        
+        searchController?.searchBar.delegate = self
         navigationItem.searchController = searchController
-        searchController.searchBar.placeholder = "App Store"
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.searchBarStyle = .prominent
-        searchController.obscuresBackgroundDuringPresentation = true
-//        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
+        searchController?.searchBar.placeholder = "App Store"
+        searchController?.searchResultsUpdater = self
+        searchController?.searchBar.searchBarStyle = .prominent
+        searchController?.obscuresBackgroundDuringPresentation = true
+        searchController?.searchBar.sizeToFit()
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
     }
@@ -60,12 +68,10 @@ class SearchViewController: UIViewController {
         tableView.reloadData()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detail_segue" {
-            guard let appDetailViewController = segue.destination as? AppDetailViewController,
-                  let row = tableView3.indexPathForSelectedRow?.row else { return }
-            appDetailViewController.model = dataSource3[row]
-        }
+    func setSearchTextInSearchBar(term: String) {
+        searchController?.searchBar.text = term
+        searchController?.isActive = true
+        search(term: term)
     }
 }
 
@@ -73,26 +79,8 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        if searchText.count > 0 {
-            searchView.alpha = 1
-            tableView2.alpha = 1
-            tableView3.alpha = 0
-            filterTermForSearchText(searchText)
-        } else {
-            searchView.alpha = 0
-            tableView2.alpha = 0
-            tableView3.alpha = 0
-        }
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        dataSource3 = []
-        dataSource2 = []
-        tableView2.reloadData()
-        tableView3.reloadData()
-        tableView2.alpha = 0
-        tableView3.alpha = 0
-        searchView.alpha = 0
+        filterTermForSearchText(searchText)
+        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -105,13 +93,6 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
     
     
     func search(term: String) {
-        
-        dataSource3 = []
-        tableView3.reloadData()
-        
-        searchView.alpha = 1
-        tableView2.alpha = 0
-        tableView3.alpha = 1
         
         let urlString: String = "\(searchUrl)&term=\(term)"
         if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!) {
@@ -135,8 +116,7 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
                         }
                     }
                 }
-                self.dataSource3 = Model.Results(JSON(data)).results
-                DispatchQueue.main.async { self.tableView3.reloadData() }
+                (self.searchController?.searchResultsController as? SearchResultsViewController)?.dataSource2 = Model.Results(JSON(data)).results
                 }.resume()
         }
     }
@@ -153,14 +133,14 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
             let num = regEx.numberOfMatches(in: searchText, options: [], range: NSRange(location: 0, length: searchText.count))
             if num == 0 {
                 alert("한글만 입력 가능합니다.")
-                searchView.alpha = 0
-                tableView2.alpha = 0
-                tableView3.alpha = 0
-                searchController.searchBar.text = ""
-                searchController.searchBar.becomeFirstResponder()
+//                searchView.alpha = 0
+//                tableView2.alpha = 0
+//                tableView3.alpha = 0
+                searchController?.searchBar.text = ""
+                searchController?.searchBar.becomeFirstResponder()
             } else {
-                dataSource2 = GlobalState.instance.recentSearch.filter { ($0 as NSString).range(of: searchText, options: .caseInsensitive).location != NSNotFound }
-                tableView2.reloadData()
+                (searchController?.searchResultsController as? SearchResultsViewController)?.dataSource = GlobalState.instance.recentSearch.filter { ($0 as NSString).range(of: searchText, options: .caseInsensitive).location != NSNotFound }
+//                tableView2.reloadData()
             }
         } catch {
             NSLog(error.localizedDescription)
@@ -169,14 +149,15 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
     
 }
 
+
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableView {
             return dataSource.count > 10 ? 10 : dataSource.count
-        } else if tableView == self.tableView2 {
-            return dataSource2.count
-        }  else if tableView == self.tableView3 {
-            return dataSource3.count
+//        } else if tableView == self.tableView2 {
+//            return dataSource2.count
+//        }  else if tableView == self.tableView3 {
+//            return dataSource3.count
         } else {
             return 0
         }
@@ -187,14 +168,14 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: RecentSearchCell.identifier, for: indexPath) as! RecentSearchCell
             cell.update(dataSource[indexPath.row])
             return cell
-        } else if tableView == self.tableView2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.identifier, for: indexPath) as! HistoryCell
-            cell.update(dataSource2[indexPath.row])
-            return cell
-        } else if tableView == self.tableView3 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.identifier, for: indexPath) as! SearchResultCell
-            cell.update(dataSource3[indexPath.row])
-            return cell
+//        } else if tableView == self.tableView2 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.identifier, for: indexPath) as! HistoryCell
+//            cell.update(dataSource2[indexPath.row])
+//            return cell
+//        } else if tableView == self.tableView3 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.identifier, for: indexPath) as! SearchResultCell
+//            cell.update(dataSource3[indexPath.row])
+//            return cell
         } else {
             return UITableViewCell()
         }
@@ -204,15 +185,16 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         // search selected data's term
         if tableView == self.tableView {
             let data = dataSource[indexPath.row]
-            searchController.searchBar.text = data
-            searchController.isActive = true
-            search(term: data)
-        } else if tableView == self.tableView2 {
-            let data = dataSource2[indexPath.row]
-            searchController.searchBar.text = data
-            searchController.isActive = true
+            searchController?.searchBar.text = data
+            searchController?.isActive = true
             search(term: data)
         }
+//        else if tableView == self.tableView2 {
+//            let data = dataSource2[indexPath.row]
+//            searchController?.searchBar.text = data
+//            searchController?.isActive = true
+//            search(term: data)
+//        }
 //        else if tableView == self.tableView3 {
 //            let data = dataSource3[indexPath.row]
 //            self.selectedModel = data
@@ -223,11 +205,13 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == self.tableView {
             return 44
-        } else if tableView == self.tableView2 {
-            return 60
-        } else if tableView == self.tableView3 {
-            return 310
-        } else { return 0 }
+        }
+//        else if tableView == self.tableView2 {
+//            return 60
+//        } else if tableView == self.tableView3 {
+//            return 310
+//        }
+        else { return 0 }
     }
 }
 

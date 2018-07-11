@@ -13,17 +13,55 @@ class SearchResultsViewController: UIViewController {
     var dataSource = [String]()
     var dataSource2 = [Model.SearchResult]()
     
+    var delgate: SearchViewControllerDelegate?
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var tableView2: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail_segue" {
+            guard let appDetailViewController = segue.destination as? AppDetailViewController,
+                let row = tableView2.indexPathForSelectedRow?.row else { return }
+            appDetailViewController.model = dataSource2[row]
+        }
+    }
 }
 
 extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return
+        return tableView == self.tableView ? dataSource.count : dataSource2.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView == self.tableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.identifier, for: indexPath) as! HistoryCell
+            cell.update(dataSource[indexPath.row])
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.identifier, for: indexPath) as! SearchResultCell
+            cell.update(dataSource2[indexPath.row])
+            return cell
+        } 
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == self.tableView {
+            return 60
+        } else {
+            return 310
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == self.tableView {
+            let data = dataSource[indexPath.row]
+            delgate?.setSearchTextInSearchBar(term: data)
+        }
     }
 }
+
