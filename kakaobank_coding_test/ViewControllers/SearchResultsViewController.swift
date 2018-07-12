@@ -11,23 +11,15 @@ import UIKit
 class SearchResultsViewController: UIViewController {
 
     var dataSource = [String]()
-    var dataSource2 = [Model.SearchResult]()
-    
+    var dataSource2 = [Model.SearchResult]() 
     var delgate: SearchViewControllerDelegate?
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var tableView2: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detail_segue" {
-            guard let appDetailViewController = segue.destination as? AppDetailViewController,
-                let row = tableView2.indexPathForSelectedRow?.row else { return }
-            appDetailViewController.model = dataSource2[row]
-        }
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
     }
 }
 
@@ -61,6 +53,8 @@ extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSourc
         if tableView == self.tableView {
             let data = dataSource[indexPath.row]
             delgate?.setSearchTextInSearchBar(term: data)
+        } else {
+            delgate?.showDetailView(model: dataSource2[indexPath.row])
         }
     }
 }
