@@ -58,7 +58,8 @@ class SearchViewController: UIViewController, SearchViewControllerDelegate {
     
     // 검색 바에 검색어 세팅 및 검색하기
     func setSearchTextInSearchBar(term: String) {
-        showResultsController = true                // to hide tableView in SearchResultsViewController
+        view.endEditing(true)
+        showResultsController = true
         searchController?.searchBar.text = term
         searchController?.isActive = true
         search(term: term)
@@ -88,7 +89,8 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchController?.searchBar.resignFirstResponder()
+        view.endEditing(true)
+        showResultsController = true
         guard let searchText = searchBar.text else { return }
         if !GlobalState.instance.recentSearch.contains(searchText) {
             addnAndFetchRecentSearch(term: searchText)
@@ -99,6 +101,10 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
     
     func search(term: String) {
         guard let searchResultsController = searchController?.searchResultsController as? SearchResultsViewController else { return }
+        
+        searchResultsController.dataSource2 = []
+        searchResultsController.tableView2.reloadData()
+        
         if showResultsController {
             searchResultsController.view.bringSubview(toFront: searchResultsController.tableView2)
         }
@@ -165,6 +171,22 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
 
 
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        var numOfSections: Int = 0
+        if dataSource.count > 0 {
+            tableView.separatorStyle = .singleLine
+            numOfSections = 1
+            tableView.backgroundView = nil
+        } else {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableView.frame.height))
+            noDataLabel.text = "최근 검색어 없음."
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle  = .none
+        }
+        return numOfSections
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count > 10 ? 10 : dataSource.count
     }
@@ -180,6 +202,10 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             let data = dataSource[indexPath.row]
             setSearchTextInSearchBar(term: data)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
 }
 

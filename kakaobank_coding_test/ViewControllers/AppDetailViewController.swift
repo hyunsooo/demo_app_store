@@ -45,6 +45,8 @@ class AppDetailViewController: UIViewController {
         categoryNameLabel.text = model.genres.first
         useAgingLabel.text = model.trackContentRating
         categoryNumberLabel.text = "#1"
+        
+        appTitleLabel.sizeToFit()
     }
     
     

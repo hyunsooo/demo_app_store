@@ -50,6 +50,7 @@ extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
         if tableView == self.tableView {
             let data = dataSource[indexPath.row]
             delgate?.setSearchTextInSearchBar(term: data)
