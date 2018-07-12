@@ -20,6 +20,7 @@ class SearchResultsViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        definesPresentationContext = true
     }
 }
 

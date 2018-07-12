@@ -86,7 +86,7 @@ extension UIImageView {
                 if let error = error { NSLog(error.localizedDescription) }
                 return
             }
-            DispatchQueue.main.async { self.image = UIImage(data: data)?.resizeImage(targetSize: CGSize(width: 180, height: 380)).withRenderingMode(.alwaysOriginal) }
+            DispatchQueue.main.async { self.image = UIImage(data: data) }
         }.resume()
     }
 }

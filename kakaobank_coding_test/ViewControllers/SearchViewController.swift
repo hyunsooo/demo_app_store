@@ -31,8 +31,6 @@ class SearchViewController: UIViewController, SearchViewControllerDelegate {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.clipsToBounds = true
         
-        navigationController?.view.subviews.first?.clipsToBounds = true     // _UINavigationcontrollerPaletteClippingView 대응
-        
         settingSearchController()
     }
     
@@ -48,6 +46,7 @@ class SearchViewController: UIViewController, SearchViewControllerDelegate {
         searchController = UISearchController(searchResultsController: searchResultsController)
         searchController?.searchBar.delegate = self
         searchController?.searchBar.placeholder = "App Store"
+        searchController?.searchBar.enablesReturnKeyAutomatically = true
         searchController?.searchResultsUpdater = self
         searchController?.obscuresBackgroundDuringPresentation = true
         searchController?.searchBar.sizeToFit()
@@ -58,7 +57,6 @@ class SearchViewController: UIViewController, SearchViewControllerDelegate {
     
     // 검색 바에 검색어 세팅 및 검색하기
     func setSearchTextInSearchBar(term: String) {
-        view.endEditing(true)
         showResultsController = true
         searchController?.searchBar.text = term
         searchController?.isActive = true
@@ -89,7 +87,6 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        view.endEditing(true)
         showResultsController = true
         guard let searchText = searchBar.text else { return }
         if !GlobalState.instance.recentSearch.contains(searchText) {
@@ -100,8 +97,9 @@ extension SearchViewController: UISearchResultsUpdating, UISearchBarDelegate {
     
     
     func search(term: String) {
+        view.endEditing(true)
+        searchController?.searchBar.resignFirstResponder()
         guard let searchResultsController = searchController?.searchResultsController as? SearchResultsViewController else { return }
-        
         searchResultsController.dataSource2 = []
         searchResultsController.tableView2.reloadData()
         
@@ -198,10 +196,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == self.tableView {
-            let data = dataSource[indexPath.row]
-            setSearchTextInSearchBar(term: data)
-        }
+        let data = dataSource[indexPath.row]
+        print(data)
+        setSearchTextInSearchBar(term: data)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
