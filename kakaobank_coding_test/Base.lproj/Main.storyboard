@@ -434,12 +434,12 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="734"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MCr-Lz-B5T">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="834"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="742"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dRr-ma-mgB">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="834"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="742"/>
                                                 <subviews>
-                                                    <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pOx-Yl-ZjA">
+                                                    <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pOx-Yl-ZjA" customClass="AppDetailHeaderView" customModule="kakaobank_coding_test" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xm2-2J-Ym1">
@@ -691,6 +691,17 @@
                                                             <constraint firstItem="jAq-rR-m7Z" firstAttribute="leading" secondItem="Xm2-2J-Ym1" secondAttribute="trailing" constant="15" id="yPn-2a-iFT"/>
                                                             <constraint firstItem="vvI-z7-ikM" firstAttribute="top" secondItem="R3B-hA-XQ6" secondAttribute="bottom" constant="4" id="z55-6c-fCF"/>
                                                         </constraints>
+                                                        <connections>
+                                                            <outlet property="appIcon" destination="Xm2-2J-Ym1" id="8JD-fC-5Ld"/>
+                                                            <outlet property="appSubTitleLabel" destination="8en-EI-Q15" id="frT-Mc-Fh1"/>
+                                                            <outlet property="appTitleLabel" destination="jAq-rR-m7Z" id="tDU-Ky-9WE"/>
+                                                            <outlet property="categoryNameLabel" destination="vvI-z7-ikM" id="XCd-w1-w4C"/>
+                                                            <outlet property="categoryNumberLabel" destination="R3B-hA-XQ6" id="sfN-N1-Zfa"/>
+                                                            <outlet property="ratingControl" destination="1pF-oI-aw9" id="8b2-eE-O9D"/>
+                                                            <outlet property="ratingLabel" destination="FNg-NR-6RI" id="e03-IE-cZo"/>
+                                                            <outlet property="ratingUserCountLabel" destination="KCo-ES-uME" id="BsG-CS-hho"/>
+                                                            <outlet property="useAgingLabel" destination="f1r-8G-Zng" id="f9h-9u-vj2"/>
+                                                        </connections>
                                                     </view>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9UK-ws-vLV">
                                                         <rect key="frame" x="0.0" y="210" width="375" height="450"/>
@@ -782,8 +793,8 @@
                                                             <constraint firstAttribute="height" constant="450" id="wmu-t0-ubC"/>
                                                         </constraints>
                                                     </stackView>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6rI-gi-4uR">
-                                                        <rect key="frame" x="0.0" y="660" width="375" height="174"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6rI-gi-4uR" customClass="DescriptionView" customModule="kakaobank_coding_test" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="660" width="375" height="82"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3ZA-kq-7Vl">
                                                                 <rect key="frame" x="20" y="0.0" width="335" height="1"/>
@@ -792,23 +803,40 @@
                                                                     <constraint firstAttribute="height" constant="0.5" id="Tf3-Az-9We"/>
                                                                 </constraints>
                                                             </view>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRw-BZ-Nc2">
-                                                                <rect key="frame" x="20" y="21" width="335" height="133"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRw-BZ-Nc2">
+                                                                <rect key="frame" x="20" y="21" width="335" height="41"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hnW-MQ-LbU">
+                                                                <rect key="frame" x="305" y="42" width="50" height="30"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="50" id="BUk-DP-PFu"/>
+                                                                </constraints>
+                                                                <state key="normal" title="더 보기"/>
+                                                                <connections>
+                                                                    <action selector="showMoreDescription" destination="6rI-gi-4uR" eventType="touchUpInside" id="U5D-jk-tl2"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="rRw-BZ-Nc2" firstAttribute="top" secondItem="3ZA-kq-7Vl" secondAttribute="bottom" constant="20" id="7ye-dr-4M2"/>
+                                                            <constraint firstAttribute="bottom" secondItem="hnW-MQ-LbU" secondAttribute="bottom" constant="10" id="EHd-Y7-cDw"/>
                                                             <constraint firstAttribute="trailing" secondItem="rRw-BZ-Nc2" secondAttribute="trailing" constant="20" id="Ey8-0E-PAf"/>
                                                             <constraint firstAttribute="bottom" secondItem="rRw-BZ-Nc2" secondAttribute="bottom" constant="20" id="IAy-d8-Tan"/>
                                                             <constraint firstItem="rRw-BZ-Nc2" firstAttribute="leading" secondItem="6rI-gi-4uR" secondAttribute="leading" constant="20" id="dzy-ts-cfP"/>
                                                             <constraint firstAttribute="trailing" secondItem="3ZA-kq-7Vl" secondAttribute="trailing" constant="20" id="mWU-mm-3td"/>
+                                                            <constraint firstAttribute="trailing" secondItem="hnW-MQ-LbU" secondAttribute="trailing" constant="20" id="uV1-Lq-0GP"/>
                                                             <constraint firstItem="3ZA-kq-7Vl" firstAttribute="top" secondItem="6rI-gi-4uR" secondAttribute="top" id="wEj-BQ-rde"/>
                                                             <constraint firstItem="3ZA-kq-7Vl" firstAttribute="leading" secondItem="6rI-gi-4uR" secondAttribute="leading" constant="20" id="zhz-QH-O7M"/>
                                                         </constraints>
+                                                        <connections>
+                                                            <outlet property="descriptionLabel" destination="rRw-BZ-Nc2" id="IA2-Tk-NHL"/>
+                                                            <outlet property="moreButton" destination="hnW-MQ-LbU" id="Arg-HA-Jbd"/>
+                                                        </connections>
                                                     </view>
                                                 </subviews>
                                                 <constraints>
@@ -856,17 +884,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="O3r-sB-Z2o"/>
                     <connections>
-                        <outlet property="appIcon" destination="Xm2-2J-Ym1" id="Pht-4L-qmX"/>
-                        <outlet property="appSubTitleLabel" destination="8en-EI-Q15" id="xgP-Fd-g6m"/>
-                        <outlet property="appTitleLabel" destination="jAq-rR-m7Z" id="un3-Zv-Dhg"/>
-                        <outlet property="categoryNameLabel" destination="vvI-z7-ikM" id="aQd-mT-5Bs"/>
-                        <outlet property="categoryNumberLabel" destination="R3B-hA-XQ6" id="MRZ-dI-Cbj"/>
-                        <outlet property="descrtiptionLabel" destination="rRw-BZ-Nc2" id="biJ-GH-Ahj"/>
-                        <outlet property="ratingControl" destination="1pF-oI-aw9" id="QwK-SQ-3eb"/>
-                        <outlet property="ratingLabel" destination="FNg-NR-6RI" id="QNl-mp-2Km"/>
-                        <outlet property="ratingUserCountLabel" destination="KCo-ES-uME" id="Krv-y4-MMi"/>
+                        <outlet property="descriptionView" destination="6rI-gi-4uR" id="RXk-6r-m3O"/>
+                        <outlet property="headerView" destination="pOx-Yl-ZjA" id="DFg-vO-N26"/>
                         <outlet property="thumbnailsCollectionView" destination="Qjo-C2-eX4" id="LhU-lC-EuL"/>
-                        <outlet property="useAgingLabel" destination="f1r-8G-Zng" id="c4L-cP-yGG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d7N-ii-UiJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

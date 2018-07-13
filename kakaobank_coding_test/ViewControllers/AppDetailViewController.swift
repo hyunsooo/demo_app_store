@@ -13,20 +13,10 @@ class AppDetailViewController: UIViewController {
 
     var model: Model.SearchResult?
     
-    @IBOutlet var appIcon: UIImageView!
-    @IBOutlet var appTitleLabel: UILabel!
-    @IBOutlet var appSubTitleLabel: UILabel!
-    @IBOutlet var ratingControl: RatingControl!
-    @IBOutlet var ratingLabel: UILabel!
-    @IBOutlet var ratingUserCountLabel: UILabel!
-    @IBOutlet var categoryNumberLabel: UILabel!
-    @IBOutlet var categoryNameLabel: UILabel!
-    @IBOutlet var useAgingLabel: UILabel!
-    @IBOutlet var descrtiptionLabel: UILabel!
-    
+    @IBOutlet var headerView: AppDetailHeaderView!
+    @IBOutlet var descriptionView: DescriptionView!
     @IBOutlet var thumbnailsCollectionView: UICollectionView!
     private var indexOfCellBeforeDragging = 0
-    
     
     
     override func viewDidLoad() {
@@ -43,21 +33,9 @@ class AppDetailViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
             return
         }
-        if let iconUrl = URL(string: model.artworkUrl100) { appIcon.setImage(url: iconUrl) }
-        appTitleLabel.text = model.trackCensoredName
-        appSubTitleLabel.text = model.sellerName
-        ratingControl.setRating(rating: model.averageUserRating)
-        ratingLabel.text = "\(model.averageUserRating)"
-        ratingUserCountLabel.text = "\(model.userRatingCount.getText())개의 평가"
-        categoryNameLabel.text = model.genres.first
-        useAgingLabel.text = model.trackContentRating
-        categoryNumberLabel.text = "#1"
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 7
-        let descriptionAttribute: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 15), .paragraphStyle: paragraphStyle]
-        descrtiptionLabel.attributedText = NSAttributedString(string: model.description, attributes: descriptionAttribute)
-        appTitleLabel.sizeToFit()
-        descrtiptionLabel.sizeToFit()
+        headerView.update(model)
+        descriptionView.update(model)
+        
     }
     
 }
