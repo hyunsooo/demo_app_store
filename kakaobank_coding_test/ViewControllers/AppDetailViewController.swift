@@ -94,7 +94,6 @@ class AppDetailViewController: UIViewController {
         dataSource.append(("연령", "\(data.contentAdvisoryRating)"))
         dataSource.append(("개발자 웹 사이트", "\(data.sellerUrl)"))
         dataSource.append(("개인정보 처리방침", ""))
-        print(dataSource)
         
         informationTableView.reloadData()
     }

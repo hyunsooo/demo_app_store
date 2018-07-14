@@ -52,15 +52,6 @@ extension SearchResultCell: CellProtocol {
         ratingControl.setRating(rating: data.averageUserRating) 
     }
     
-//    func getText(count: Int) -> String {
-//        var text: String = "\(count)"
-//        guard text.count > 3 else { return text }
-//
-//        text = "\(Int(Double(count) / pow(10.0, Double(text.count - 1 > 4 ? 4 : text.count - 1)))).\((text as NSString).substring(with: NSRange(location: text.count - 1 > 4 ? text.count - 4 : 1, length: 2)))"
-//        if text.count == 4 { text += "천" }
-//        else { text += "만" }
-//        return text
-//    }
 }
 
 extension Int {

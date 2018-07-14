@@ -31,7 +31,6 @@ extension DescriptionView: CellProtocol {
         descriptionLabel.attributedText = NSAttributedString(string: data.description, attributes: descriptionAttribute)
         descriptionLabel.sizeToFit()
         
-        print(isLongText(text: data.description))
         moreButton.isHidden = !isLongText(text: data.description)
     }
 }

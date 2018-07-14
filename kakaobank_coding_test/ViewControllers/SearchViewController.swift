@@ -197,7 +197,6 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = dataSource[indexPath.row]
-        print(data)
         setSearchTextInSearchBar(term: data)
     }
     
