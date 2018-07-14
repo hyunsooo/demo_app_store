@@ -19,8 +19,8 @@ class RecentSearchCell: UITableViewCell {
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
-        backgroundColor = isHighlighted ? .blue : .clear
-        searchTextLabel.textColor = isHighlighted ? .white : .blue
+        backgroundColor = isHighlighted ? #colorLiteral(red: 0.1725490196, green: 0.4862745098, blue: 0.9647058824, alpha: 1) : .clear
+        searchTextLabel.textColor = isHighlighted ? .white : #colorLiteral(red: 0.1725490196, green: 0.4862745098, blue: 0.9647058824, alpha: 1)
     }
 }
 

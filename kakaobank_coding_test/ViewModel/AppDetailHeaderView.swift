@@ -32,7 +32,7 @@ extension AppDetailHeaderView: CellProtocol {
         ratingLabel.text = "\(data.averageUserRating)"
         ratingUserCountLabel.text = "\(data.userRatingCount.getText())개의 평가"
         categoryNameLabel.text = data.genres.first
-        useAgingLabel.text = data.trackContentRating
+        useAgingLabel.text = data.contentAdvisoryRating
         categoryNumberLabel.text = "#1"
         appTitleLabel.sizeToFit()
     }

@@ -30,5 +30,18 @@ extension DescriptionView: CellProtocol {
         let descriptionAttribute: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: 15), .paragraphStyle: paragraphStyle]
         descriptionLabel.attributedText = NSAttributedString(string: data.description, attributes: descriptionAttribute)
         descriptionLabel.sizeToFit()
+        
+        print(isLongText(text: data.description))
+        moreButton.isHidden = !isLongText(text: data.description)
     }
+}
+
+func isLongText(text: String) -> Bool {
+    let label = UILabel()
+    label.numberOfLines = 0
+    
+    let rect = CGSize(width: UIScreen.main.bounds.width - 40, height: CGFloat.greatestFiniteMagnitude)
+    let labelSize = text.boundingRect(with: rect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: label.font], context: nil)
+    
+    return Int(ceil(CGFloat(labelSize.height) / label.font.lineHeight)) > 3
 }
